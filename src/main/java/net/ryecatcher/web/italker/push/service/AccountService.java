@@ -1,6 +1,8 @@
 package net.ryecatcher.web.italker.push.service;
 
-import net.ryecatcher.web.italker.push.bean.User;
+
+
+import net.ryecatcher.web.italker.push.bean.db.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -28,7 +30,7 @@ public class AccountService {
     public User post(){
         User user=new User();
         user.setName("RyeCatcher");
-        user.setSex("男");
+        user.setSex(1);
         return user;
     }
 }
