@@ -8,7 +8,7 @@
         <!-- 数据库链接驱动 -->
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <!--链接地址用户名密码 --><!--DB_I_T_PUSH是数据库名称-->
-        <property name="connection.url">jdbc:mysql://127.0.0.1:3306/DB_I_T_PUSH?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false</property>
+        <property name="connection.url">jdbc:mysql://127.0.0.1:3306/DB_I_T_PUSH_TEST?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false</property>
         <property name="connection.username">root</property>
         <property name="connection.password">123456</property>
 
@@ -54,22 +54,19 @@
         update: 这个操作启动的时候会去检查schema是否一致，如果不一致会做scheme更新
         validate: 启动时验证现有schema与你配置的hibernate是否一致，如果不一致就抛出异常，并不做更新
         -->
-
-
-        <!--<mapping package="net.qiujuer.web.italker.push.bean.db"-->
-        <!--class="net.qiujuer.web.italker.push.bean.db.Group"/>-->
-        <!--<mapping package="net.qiujuer.web.italker.push.bean.db"-->
-        <!--class="net.qiujuer.web.italker.push.bean.db.GroupMember"/>-->
-        <!--<mapping package="net.qiujuer.web.italker.push.bean.db"-->
-        <!--class="net.qiujuer.web.italker.push.bean.db.User"/>-->
-        <!--<mapping package="net.qiujuer.web.italker.push.bean.db"-->
-        <!--class="net.qiujuer.web.italker.push.bean.db.UserFollow"/>-->
-        <!--<mapping package="net.qiujuer.web.italker.push.bean.db"-->
-        <!--class="net.qiujuer.web.italker.push.bean.db.Message"/>-->
-        <!--<mapping package="net.qiujuer.web.italker.push.bean.db"-->
-        <!--class="net.qiujuer.web.italker.push.bean.db.PushHistory"/>-->
-        <!--<mapping package="net.qiujuer.web.italker.push.bean.db"-->
-        <!--class="net.qiujuer.web.italker.push.bean.db.Apply"/>-->
-
+        <mapping package="net.ryecatcher.web.italker.push.bean.db"
+         class="net.ryecatcher.web.italker.push.bean.db.User"/>
+        <mapping package="net.ryecatcher.web.italker.push.bean.db"
+         class="net.ryecatcher.web.italker.push.bean.db.UserFollow"/>
+        <mapping package="net.ryecatcher.web.italker.push.bean.db"
+        class="net.ryecatcher.web.italker.push.bean.db.Group"/>
+        <mapping package="net.ryecatcher.web.italker.push.bean.db"
+        class="net.ryecatcher.web.italker.push.bean.db.GroupMember"/>
+        <mapping package="net.ryecatcher.web.italker.push.bean.db"
+        class="net.ryecatcher.web.italker.push.bean.db.Message"/>
+        <mapping package="net.ryecatcher.web.italker.push.bean.db"
+        class="net.ryecatcher.web.italker.push.bean.db.PushHistory"/>
+        <mapping package="net.ryecatcher.web.italker.push.bean.db"
+        class="net.ryecatcher.web.italker.push.bean.db.Apply"/>
     </session-factory>
 </hibernate-configuration>

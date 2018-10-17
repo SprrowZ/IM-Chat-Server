@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(name = "TB_GROUP_MEMBER")
-public class GrpupMember {
+public class GroupMember {
     public static final  int PERMISSION_TYPE_NONE = 0;//默认权限，普通成员
     public static  final  int PERMISSION_TYPE_ADMIN = 1;//管理员
     public static  final  int PERMISSION_TYPE_ADMIN_SU = 100;//群主

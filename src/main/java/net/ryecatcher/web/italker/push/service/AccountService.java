@@ -2,6 +2,7 @@ package net.ryecatcher.web.italker.push.service;
 
 
 
+import net.ryecatcher.web.italker.push.bean.api.account.RegisterModel;
 import net.ryecatcher.web.italker.push.bean.db.User;
 
 import javax.ws.rs.*;
@@ -23,11 +24,35 @@ public class AccountService {
     public String get(){
         return  "You get the login";
     }
+
+
+    /**
+     * 登录
+     * @return
+     */
     @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)//传入json
     @Produces(MediaType.APPLICATION_JSON)//输出json
     public User post(){
+        User user=new User();
+        user.setName("RyeCatcher");
+        user.setSex(1);
+        return user;
+    }
+
+    /**
+     * 注册
+     * @param model
+     * @return
+     */
+    @POST
+    @Path("/register")
+    @Consumes(MediaType.APPLICATION_JSON)//传入json
+    @Produces(MediaType.APPLICATION_JSON)//输出json
+    public User register(RegisterModel model){//注册需要传入一些信息，然后返回User,但是
+        //User中有一些敏感信息，不能直接返回，比如password，phonenumber，这时候就需要新建一个
+        //UserCard，用以装载可以返回的信息
         User user=new User();
         user.setName("RyeCatcher");
         user.setSex(1);
