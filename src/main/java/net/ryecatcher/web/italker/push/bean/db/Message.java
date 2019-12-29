@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 /**
  * describe:消息表
  *
- * @Author Zzg
- * @Create 2018-09-16 14:36
+ * @Author
+ * @Create
  */
 @Entity
 @Table(name = "TB_MESSAGE")
@@ -32,19 +32,29 @@ public class Message {
     //不允许更改，不允许为null
     @Column(updatable = false, nullable = false)
     private String id;
+
+
     //内容不允许为空，类型为text
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
+
+
     //附件可以为空
     @Column()
     private String attach;
+
+
     //消息类型
     @Column(nullable = false)
     private int type;
+
+
     //定义为创建时间戳，在创建的时候就已经写入
     @CreationTimestamp
     @Column
     private LocalDateTime createAt = LocalDateTime.now();
+
+
 
     //定义为更新时间戳，在更新的时候就已经写入
     @UpdateTimestamp
@@ -56,6 +66,8 @@ public class Message {
     @JoinColumn(name = "senderId")
     @ManyToOne(optional = false)//跟nullable为false一样
     private User  sender;
+
+
     //接收ID，这样就可以懒加载，只加载用户的id而不是全部信息
     //仅仅是为了对应sender的数据库字段senderId，
     //不允许手动的更新或者插入
@@ -67,6 +79,8 @@ public class Message {
     @ManyToOne
     @JoinColumn(name = "receiverId")
     private User receiver;
+
+
     @Column(updatable = false,insertable = false)
     private String receiverId;
 

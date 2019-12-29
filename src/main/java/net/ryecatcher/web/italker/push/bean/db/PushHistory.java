@@ -39,6 +39,9 @@ public class PushHistory {
     @ManyToOne(optional = false,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "receiverId")
     private User receiver;
+
+
+
     @Column(nullable = false,updatable = false,insertable = false)
     private String receiverId;
 
@@ -49,6 +52,8 @@ public class PushHistory {
     @ManyToOne(optional = false,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "senderId")
     private User sender;
+
+
     @Column(updatable = false,insertable = false)
     private String senderId;
 
@@ -71,6 +76,8 @@ public class PushHistory {
     //消息送达的时间,可为空
     @Column
     private LocalDateTime arriveAt;
+
+
 
     public String getId() {
         return id;

@@ -3,6 +3,7 @@ package net.ryecatcher.web.italker.push.service;
 
 
 import net.ryecatcher.web.italker.push.bean.api.account.RegisterModel;
+import net.ryecatcher.web.italker.push.bean.db.TestBean;
 import net.ryecatcher.web.italker.push.bean.db.User;
 
 import javax.ws.rs.*;
@@ -16,9 +17,9 @@ import javax.ws.rs.core.MediaType;
  * @Create 2018-08-25 22:58
  */
 @Path("/account")//注册路径访问，所有映射想走到本类，访问路径就为：
-// 和web.xml最底下的映射路径结合即为：127.0.0.1/api/account...
+// 和web.xml最底下的映射路径结合即为：http://localhost:8080/api/account/...
 public class AccountService {
-    //实际路径 127.0.0.1/api/account/login
+    //实际路径 http://localhost:8080/api/account/login
     @GET
     @Path("/login")
     public String get(){
@@ -32,13 +33,16 @@ public class AccountService {
      */
     @POST
     @Path("/login")
-    @Consumes(MediaType.APPLICATION_JSON)//传入json
+    @Consumes()//传入json
     @Produces(MediaType.APPLICATION_JSON)//输出json
-    public User post(){
-        User user=new User();
-        user.setName("RyeCatcher");
-        user.setSex(1);
-        return user;
+    public TestBean post(){
+//        User user=new User();
+//        user.setName("RyeCatcher");
+//        user.setSex(1);
+ TestBean bean=new TestBean();
+ bean.setPassword("123");
+ bean.setUsrname("Rye");
+        return bean;
     }
 
     /**

@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 /**
  * describe:申请记录表
  *
- * @Author Zzg
- * @Create 2018-09-16 19:17
+ * @Author
+ * @Create
  */
 @Entity
 @Table(name = "TB_APPLY")
@@ -67,6 +67,7 @@ public class Apply {
     @ManyToOne()
     @JoinColumn(name="applicantId")
     private User applicant;
+
     @Column(updatable = false,insertable = false)
     private String applicantId;
 

@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "TB_GROUP")
 public class Group {
+
+
     @Id
     @PrimaryKeyJoinColumn
     //主键生成存储的类型为UUID,自动生成
@@ -26,15 +28,22 @@ public class Group {
     @Column(updatable = false,nullable = false)
     private String id;
 
+
     //群名
     @Column(nullable = false)
     private String name;
+
+
     //群描述
     @Column(nullable = false)
     private String description;
+
+
     //群头像
     @Column(nullable = false)
     private String picture;
+
+
     //定义为创建时间戳，在创建的时候就已经写入
     @CreationTimestamp
     @Column
@@ -46,6 +55,10 @@ public class Group {
     private LocalDateTime updateAt=LocalDateTime.now();
 
 
+    @Column(nullable = false,updatable = false,insertable = false)
+    private String ownerId;
+
+
     //群的创建者
     //optional:可选为false，必须有一个创建者
     //fetch：加载方式FetchType.EAGER,急加载，意味着加载群的信息的时候就必须加载owner的信息
@@ -53,6 +66,10 @@ public class Group {
     @ManyToOne(optional = false,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "ownerId")
     private User owner;
+
+
+
+
 
     public User getOwner() {
         return owner;
@@ -70,8 +87,9 @@ public class Group {
         this.ownerId = ownerId;
     }
 
-    @Column(nullable = false,updatable = false,insertable = false)
-    private String ownerId;
+
+
+
     public String getId() {
         return id;
     }

@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     // Gson json
-    compile 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.google.code.gson:gson:2.8.0'
     // Guava java 类封装
     compile 'com.google.guava:guava:21.0'
 

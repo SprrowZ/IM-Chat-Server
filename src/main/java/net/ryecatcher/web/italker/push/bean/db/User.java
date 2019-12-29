@@ -53,7 +53,7 @@ public class User {
     //账户名、电话、token都可以唯一确定一个账号
     @Column(unique = true)
     private String token;
-    //用于推送的设备ID
+    //用于推送的设备ID，客户端上传
     @Column
     private String pushId;
 
@@ -94,6 +94,8 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)//与上边这个是配合使用的
     private Set<UserFollow> followers=new HashSet<>();
 
+
+
     //我所创建的群
     //对应的字段为Group.ownerId
     @JoinColumn(name = "ownerId")
@@ -106,6 +108,12 @@ public class User {
     // 如果这里也是急加载，个人信息里就又有群信息需要急加载，就会陷入无限循环，导致内存崩溃！
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Group> groups=new HashSet<>();
+
+
+
+
+
+
 
     public String getId() {
         return id;
