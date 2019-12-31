@@ -3,8 +3,10 @@ package net.ryecatcher.web.italker.push.service;
 
 
 import net.ryecatcher.web.italker.push.bean.api.account.RegisterModel;
+import net.ryecatcher.web.italker.push.bean.card.UserCard;
 import net.ryecatcher.web.italker.push.bean.db.TestBean;
 import net.ryecatcher.web.italker.push.bean.db.User;
+import net.ryecatcher.web.italker.push.factory.UserFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -54,13 +56,37 @@ public class AccountService {
     @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)//传入json
     @Produces(MediaType.APPLICATION_JSON)//输出json
-    public User register(RegisterModel model){//注册需要传入一些信息，然后返回User,但是
-        //User中有一些敏感信息，不能直接返回，比如password，phonenumber，这时候就需要新建一个
-        //UserCard，用以装载可以返回的信息
-        User user=new User();
-        user.setName("RyeCatcher");
-        user.setSex(1);
-        return user;
+    public UserCard register(RegisterModel model){//注册需要传入一些信息，然后返回User,但是
+        //手机号是否已经被注册
+        User user=UserFactory.findByPhone(model.getAccount().trim());
+        if (user!=null){
+             UserCard card=new UserCard();
+             card.setName("该手机号已经被注册过了！");
+             return card;
+        }
+         //名字是否已经被注册
+         user=UserFactory.findByName(model.getName().trim());
+        if (user!=null){
+            UserCard card=new UserCard();
+            card.setName("该用户名已经被注册过了！");
+            return card;
+        }
+
+
+         user= UserFactory.register(model.getAccount()
+                ,model.getPassword()
+                ,model.getName());
+
+        if (user!=null){
+            UserCard card=new UserCard();
+            card.setName(model.getName());
+            card.setPhone(user.getPhone());
+            card.setSex(user.getSex());
+            card.setIsFollow(true);
+            card.setModifyAt(user.getUpdateAt());
+            return card;
+        }
+        return null;
     }
 }
 

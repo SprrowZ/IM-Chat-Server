@@ -5,11 +5,11 @@ import com.google.gson.annotations.Expose;
 /**
  * describe:用户注册实体类，入口在service下的AccountService里
  *
- * @Author Zzg
- * @Create 2018-10-16 19:55
+ * @Author
+ * @Create
  */
 public class RegisterModel {
-    @Expose
+    @Expose   //必须加此注解，否则Gson不进行解析，配置是在GsonProvider中的
     private String account;
     @Expose
     private String password;

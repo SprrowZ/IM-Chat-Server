@@ -63,4 +63,61 @@ public class Hib {
             sessionFactory.close();
         }
     }
+
+    /**
+     * 将具体实现交给上层
+     */
+    public interface Query<T>{
+        T query(Session session);
+    }
+    public interface QueryOnly{
+        void query(Session session);
+    }
+
+    /**
+     * 只查询，不返回结果
+     * @param query
+     */
+    public static void queryOnly(QueryOnly query){
+        //重开一个Session
+        Session session =sessionFactory.openSession();
+        final  Transaction transaction=session.beginTransaction();
+
+        try{
+            query.query(session);
+        }catch (Exception e){
+            e.printStackTrace();
+            //出错回滚事务
+            transaction.rollback();
+        }finally {
+            //无论成功失败都要关闭
+            session.close();
+        }
+
+    }
+    /**
+     * 传递一个接口，并将query传递进去
+     * 泛型方法，可能需要返回值
+     * @param query
+     */
+    public static  <T> T query(Query<T> query){
+        //重开一个Session
+        Session session =sessionFactory.openSession();
+        final  Transaction transaction=session.beginTransaction();
+        T t=null;
+        try{
+         t= query.query(session);
+        }catch (Exception e){
+            e.printStackTrace();
+            //出错回滚事务
+            transaction.rollback();
+        }finally {
+            //无论成功失败都要关闭
+            session.close();
+        }
+        return  t;
+    }
+
+
+
 }

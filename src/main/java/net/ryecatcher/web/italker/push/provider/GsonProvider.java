@@ -41,7 +41,7 @@ public class GsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
         GsonBuilder builder = new GsonBuilder()
                 // 序列化为null的字段
                 .serializeNulls()
-                // 仅仅处理带有@Expose注解的变量
+                // 仅仅处理带有@Expose注解的变量----如果属性不加@Expose，那么post返回为空！！！！！！！！！！！！！！！！！！！！！！
                 .excludeFieldsWithoutExposeAnnotation()
                 // 支持Map
                 .enableComplexMapKeySerialization();

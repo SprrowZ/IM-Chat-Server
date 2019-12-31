@@ -14,8 +14,8 @@ import java.util.Set;
 /**
  * describe:用户注册时返回的信息
  *
- * @Author Zzg
- * @Create 2018-10-16 20:51
+ * @Author
+ * @Create
  */
 public class UserCard {
     @Expose
@@ -37,7 +37,18 @@ public class UserCard {
     private int following;
     //我与当前User的关系状态，是否已经关注了这个人
     @Expose
-    private int isFollow;
+    private boolean isFollow;
+    //手机号也是用户的账号
+    @Expose
+    private String phone;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public String getId() {
         return id;
@@ -95,11 +106,11 @@ public class UserCard {
         this.following = following;
     }
 
-    public int getIsFollow() {
+    public boolean getIsFollow() {
         return isFollow;
     }
 
-    public void setIsFollow(int isFollow) {
+    public void setIsFollow(boolean isFollow) {
         this.isFollow = isFollow;
     }
 }
