@@ -85,6 +85,8 @@ public class Hib {
 
         try{
             query.query(session);
+            // 提交
+            transaction.commit();
         }catch (Exception e){
             e.printStackTrace();
             //出错回滚事务
@@ -100,6 +102,7 @@ public class Hib {
      * 泛型方法，可能需要返回值
      * @param query
      */
+    // TODO: 2020/1/1 命名不规范，不光有query操作，其他需要开启事务的操作也通过这个完成 
     public static  <T> T query(Query<T> query){
         //重开一个Session
         Session session =sessionFactory.openSession();
@@ -107,6 +110,9 @@ public class Hib {
         T t=null;
         try{
          t= query.query(session);
+         //事务不要忘记提交！！！！否则任何关于数据库的操作都无效！！！！
+            // 提交
+            transaction.commit();
         }catch (Exception e){
             e.printStackTrace();
             //出错回滚事务

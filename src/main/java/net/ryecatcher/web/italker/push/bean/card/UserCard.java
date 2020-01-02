@@ -1,15 +1,9 @@
 package net.ryecatcher.web.italker.push.bean.card;
 
 import com.google.gson.annotations.Expose;
-import net.ryecatcher.web.italker.push.bean.db.Group;
-import net.ryecatcher.web.italker.push.bean.db.UserFollow;
-import org.hibernate.annotations.*;
+import net.ryecatcher.web.italker.push.bean.db.User;
 
-import javax.persistence.*;
-import javax.persistence.CascadeType;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * describe:用户注册时返回的信息
@@ -31,7 +25,7 @@ public class UserCard {
 
    //用户信息最后的更新时间
     @Expose
-    private LocalDateTime modifyAt=LocalDateTime.now();
+    private LocalDateTime updateAt =LocalDateTime.now();
    //用户粉丝的数量
     @Expose
     private int following;
@@ -41,6 +35,27 @@ public class UserCard {
     //手机号也是用户的账号
     @Expose
     private String phone;
+
+    /**
+     * 通过User来赋值部分信息给UserCard
+     * @param user
+     */
+    public UserCard (final User user){
+        this.id=user.getId();
+        this.name=user.getName();
+        this.phone=user.getPhone();
+        this.portrait=user.getPortrait();
+        this.desc=user.getDescription();
+        this.sex=user.getSex();
+        this.updateAt =user.getUpdateAt();
+        // TODO: 2020/1/1 获取关注人和粉丝的数量
+    }
+
+
+
+
+
+
 
     public String getPhone() {
         return phone;
@@ -90,12 +105,12 @@ public class UserCard {
         this.sex = sex;
     }
 
-    public LocalDateTime getModifyAt() {
-        return modifyAt;
+    public LocalDateTime getUpdateAt() {
+        return updateAt;
     }
 
-    public void setModifyAt(LocalDateTime modifyAt) {
-        this.modifyAt = modifyAt;
+    public void setUpdateAt(LocalDateTime updateAt) {
+        this.updateAt = updateAt;
     }
 
     public int getFollowing() {
