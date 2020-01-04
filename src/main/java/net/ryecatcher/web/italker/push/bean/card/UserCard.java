@@ -41,6 +41,11 @@ public class UserCard {
      * @param user
      */
     public UserCard (final User user){
+      this(user,false);
+    }
+    public UserCard (final User user,boolean isFollow){
+
+        this.isFollow=isFollow;
         this.id=user.getId();
         this.name=user.getName();
         this.phone=user.getPhone();
@@ -50,7 +55,6 @@ public class UserCard {
         this.updateAt =user.getUpdateAt();
         // TODO: 2020/1/1 获取关注人和粉丝的数量
     }
-
 
 
 
