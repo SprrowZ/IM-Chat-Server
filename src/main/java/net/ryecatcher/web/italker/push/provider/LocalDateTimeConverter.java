@@ -20,7 +20,7 @@ public class LocalDateTimeConverter implements JsonSerializer<LocalDateTime>, Js
     /**
      * 时间转换的格式为：yyyy-MM-dd'T'HH:mm:ss.SSS
      */
-    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH);
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
 
     /**
      * 把一个LocalDateTime格式的时间转换为Gson支持的JsonElement
