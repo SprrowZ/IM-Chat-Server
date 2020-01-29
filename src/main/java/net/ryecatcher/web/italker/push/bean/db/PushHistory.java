@@ -49,7 +49,7 @@ public class PushHistory {
     //发送者，可为空，因为有可能是系统消息
     //一个发送者可以发送很多推送消息
     //FetchType.EAGER:加载一条推送消息的时候加载用户信息
-    @ManyToOne(optional = false,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "senderId")
     private User sender;
 

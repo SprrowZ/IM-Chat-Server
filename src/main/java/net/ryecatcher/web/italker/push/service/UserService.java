@@ -4,10 +4,12 @@ import com.google.common.base.Strings;
 
 
 import net.ryecatcher.web.italker.push.bean.api.account.UpdateInfoModel;
+import net.ryecatcher.web.italker.push.bean.api.base.PushModel;
 import net.ryecatcher.web.italker.push.bean.api.base.ResponseModel;
 import net.ryecatcher.web.italker.push.bean.card.UserCard;
 import net.ryecatcher.web.italker.push.bean.db.User;
 import net.ryecatcher.web.italker.push.factory.UserFactory;
+import net.ryecatcher.web.italker.push.utils.PushDispatcher;
 
 
 import javax.ws.rs.*;
@@ -52,6 +54,13 @@ public class UserService extends BaseService {
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseModel<List<UserCard>> contact() {
         User self = getSelf();
+        //测试
+//        PushModel model=new PushModel();
+//        model.add(new PushModel.Entity(0,"hello...shift..."));
+//        PushDispatcher dispatcher=new PushDispatcher();
+//        dispatcher.add(self,model);
+//        dispatcher.submit();
+
         //拿到我的联系人
         List<User> users = UserFactory.contacts(self);
         List<UserCard> userCards = users.stream()

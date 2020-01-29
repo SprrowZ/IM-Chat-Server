@@ -11,7 +11,8 @@ import net.ryecatcher.web.italker.push.bean.db.User;
  * @author qiujuer Email:qiujuer@live.cn
  * @version 1.0.0
  */
-public class UpdateInfoModel {
+public class
+UpdateInfoModel {
     @Expose
     private String name;
     @Expose
