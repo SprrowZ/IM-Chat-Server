@@ -8,6 +8,7 @@ import net.ryecatcher.web.italker.push.bean.api.base.PushModel;
 import net.ryecatcher.web.italker.push.bean.api.base.ResponseModel;
 import net.ryecatcher.web.italker.push.bean.card.UserCard;
 import net.ryecatcher.web.italker.push.bean.db.User;
+import net.ryecatcher.web.italker.push.factory.PushFactory;
 import net.ryecatcher.web.italker.push.factory.UserFactory;
 import net.ryecatcher.web.italker.push.utils.PushDispatcher;
 
@@ -97,7 +98,8 @@ public class UserService extends BaseService {
             return ResponseModel.buildServiceError();
         }
         //通知我关注的人，我关注了他
-        // TODO: 2020/1/17  
+        // TODO: 2020/1/17  通知我关注的人，我关注了他...已完成
+        PushFactory.pushFollow(followUser,new UserCard(self));
 
         return ResponseModel.buildOk(new UserCard(followUser, true));
     }

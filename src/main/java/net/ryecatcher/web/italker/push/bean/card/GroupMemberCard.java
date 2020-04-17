@@ -31,8 +31,8 @@ public class GroupMemberCard {
         this.alias = member.getAlias();
         this.isAdmin = member.getPermissionType() == GroupMember.PERMISSION_TYPE_ADMIN;
         this.isOwner = member.getPermissionType() == GroupMember.PERMISSION_TYPE_ADMIN_SU;
-        this.userId = member.getUserId();
-        this.groupId = member.getGroupId();
+        this.userId = member.getUser().getId();//GroupMember中，userId是外键，不重新查找数据库拿不到值，这里用getUser就可以关联查询数据库
+        this.groupId = member.getGroup().getId();
         this.modifyAt = member.getUpdateAt();
     }
 

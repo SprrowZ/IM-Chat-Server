@@ -1,8 +1,11 @@
 package net.ryecatcher.web.italker.push.factory;
 
 import com.google.common.base.Strings;
+import com.google.gson.internal.$Gson$Preconditions;
 import net.ryecatcher.web.italker.push.bean.api.base.PushModel;
+import net.ryecatcher.web.italker.push.bean.card.GroupMemberCard;
 import net.ryecatcher.web.italker.push.bean.card.MessageCard;
+import net.ryecatcher.web.italker.push.bean.card.UserCard;
 import net.ryecatcher.web.italker.push.bean.db.*;
 import net.ryecatcher.web.italker.push.utils.Hib;
 import net.ryecatcher.web.italker.push.utils.PushDispatcher;
@@ -111,5 +114,114 @@ public class PushFactory {
             dispatcher.add(receiver, pushModel);
 
         });
+    }
+
+    /**
+     * 给群成员发送被添加到群的消息
+     * @param members
+     */
+    public static void pushJoinGroup(Set<GroupMember> members) {
+        //个推中的发送者
+        PushDispatcher dispatcher=new PushDispatcher();
+        //发送的消息要存到历史表中
+        List<PushHistory> histories=new ArrayList<>();
+        members.stream().forEach(member->{
+            User receiver=member.getUser();
+            if (receiver==null) return;
+
+            GroupMemberCard memberCard=new GroupMemberCard(member);
+            String entity=TextUtil.toJson(memberCard);
+            PushHistory history=new PushHistory();
+            history.setEntityType(PushModel.ENTITY_TYPE_ADD_GROUP_MEMBERS);
+            history.setEntity(entity);
+            history.setReceiver(receiver);
+            history.setReceiverPushId(receiver.getPushId());
+            histories.add(history);
+            //构建一个消息Model
+            PushModel pushModel=new PushModel();
+            pushModel.add(history.getEntityType(),history.getEntity());
+            dispatcher.add(receiver,pushModel);
+        });
+        Hib.queryOnly(session -> {
+            histories.stream().forEach(history->{
+                session.saveOrUpdate(histories);
+            });
+        });
+        //不要忘了提交，否则不推送
+        dispatcher.submit();
+    }
+
+    /**
+     * 通知老成员，有新人加入
+     * @param oldMembers
+     * @param insertCards
+     */
+    public static void pushGroupMemberAdd(Set<GroupMember> oldMembers, List<GroupMemberCard> insertCards) {
+
+        PushDispatcher dispatcher=new PushDispatcher();
+        List<PushHistory> histories=new ArrayList<>();
+        String entity= TextUtil.toJson(insertCards);
+        //给每个老成员推送一条消息，消息内容为新增用户集合
+        addGroupMembersPushModel(dispatcher,histories,oldMembers,
+                entity,PushModel.ENTITY_TYPE_ADD_GROUP_MEMBERS);
+        //消息存到推送历史表
+        Hib.queryOnly(session -> {
+            histories.stream().forEach(history -> {
+                session.saveOrUpdate(histories);
+            });
+        });
+      dispatcher.submit();
+    }
+
+    /**
+     * 推送账户退出消息
+     * @param receiver  接收者
+     * @param pushId    这个时刻的接受者的设备ID，比如某某设备已经登录此账号，单点登录？？
+     */
+    public static void pushLogout(User receiver, String pushId) {
+        //存到推送历史表
+        PushHistory history=new PushHistory();
+        history.setEntityType(PushModel.ENTITY_TYPE_LOGOUT);
+        history.setEntity("Account Logout");
+        history.setReceiver(receiver);
+        history.setReceiverPushId(pushId);
+        Hib.queryOnly(session -> session.saveOrUpdate(history));
+        //推送退出账号的消息
+        PushDispatcher dispatcher=new PushDispatcher();
+        PushModel pushModel=new PushModel()
+                .add(history.getEntityType(),history.getEntity());
+        //添加并提交到第三方推送
+        dispatcher.add(receiver,pushModel);
+        dispatcher.submit();
+
+
+
+    }
+
+    /**
+     * 推送给我关注的人一条消息，内容是我的信息
+     * @param receiver
+     * @param userCard
+     */
+    public static void pushFollow(User receiver, UserCard userCard) {
+        //一定已经相互关注了
+        userCard.setFollow(true);
+        String entity=TextUtil.toJson(userCard);
+        //存到推送消息历史表中
+        PushHistory history=new PushHistory();
+        history.setEntityType(PushModel.ENTITY_TYPE_ADD_FRIEND);
+        history.setEntity(entity);
+        history.setReceiver(receiver);
+        history.setReceiverPushId(receiver.getPushId());
+
+        Hib.queryOnly(session -> {
+            session.save(history);
+        });
+
+        PushDispatcher dispatcher=new PushDispatcher();
+        PushModel pushModel=new PushModel()
+                .add(history.getEntityType(),history.getEntity());
+        dispatcher.add(receiver,pushModel);
+        dispatcher.submit();
     }
 }

@@ -198,7 +198,8 @@ public class UserFactory {
             //如果当前账户之前的设备id和需要的绑定的不同，那么需要单点登录，让之前的设备退出账户，
             //给之前的设备推送一条消息
             if (Strings.isNullOrEmpty(user.getPushId())) {
-                //TODO 推送一个退出消息
+                //TODO 推送一个退出消息...已完成
+                PushFactory.pushLogout(user,user.getPushId());
             }
             //更新新的设备ID
             user.setPushId(pushId);

@@ -2,6 +2,7 @@ package net.ryecatcher.web.italker.push.bean.card;
 
 import com.google.gson.annotations.Expose;
 import net.ryecatcher.web.italker.push.bean.db.User;
+import net.ryecatcher.web.italker.push.utils.Hib;
 
 import java.time.LocalDateTime;
 
@@ -22,6 +23,10 @@ public class UserCard {
     private String desc;
     @Expose
     private int sex=0;
+
+    // 用户关注人的数量
+    @Expose
+    private int follows;
 
    //用户信息最后的更新时间
     @Expose
@@ -53,7 +58,17 @@ public class UserCard {
         this.desc=user.getDescription();
         this.sex=user.getSex();
         this.updateAt =user.getUpdateAt();
-        // TODO: 2020/1/1 获取关注人和粉丝的数量
+        // TODO: 2020/1/1 获取关注人和粉丝的数量...已完成
+        //user.getFollowers().size()，懒加载会报错
+        Hib.queryOnly(session -> {
+            //重新加载一次
+            session.load(user,user.getId());
+            //这是时候仅仅是进行了数量查询，并没有查询整个集合
+            //要查询集合，必须在session存在情况下遍历
+            //或者使用Hibernate.initialize(user.getFollower())
+            follows=user.getFollowers().size();
+            following=user.getFollowing().size();
+        });
     }
 
 
@@ -129,7 +144,7 @@ public class UserCard {
         return isFollow;
     }
 
-    public void setIsFollow(boolean isFollow) {
+    public void setFollow(boolean isFollow) {
         this.isFollow = isFollow;
     }
 }

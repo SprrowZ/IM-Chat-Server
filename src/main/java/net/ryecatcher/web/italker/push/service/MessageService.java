@@ -102,7 +102,7 @@ public class MessageService extends BaseService {
      * @return
      */
     private ResponseModel<MessageCard> pushToGroup(User sender, MessageCreateModel model) {
-        Group group = GroupFactory.findById(sender, model);
+        Group group = GroupFactory.findById(sender, model.getReceiverId());
         if (group == null) {
             return ResponseModel.buildNotFoundUserError("Can not find Group");
         }
